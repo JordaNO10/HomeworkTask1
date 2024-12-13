@@ -1,4 +1,5 @@
-// Import the necessary modules from the 'fs' package for file operations and 'path' for handling file paths.
+// Import the necessary modules from the 'fs' package for file operations
+// and 'path' for handling file paths.
 const { readFile, writeFile } = require("fs").promises; // Use promises API for asynchronous file operations.
 const path = require("path"); // Import path module to work with file and directory paths.
 
@@ -8,7 +9,7 @@ const dirPath = path.join(__dirname, "/texts");
 // Asynchronous function to read from input files and write to an output file.
 const writeToFile = async () => {
   try {
-    console.log("start"); // Log the start of the process.
+    console.log("Starting Copy"); // Log the start of the process.
 
     // Read the content of each file asynchronously.
     const first = await readFile(`${dirPath}/input1.txt`, "utf8");
@@ -21,38 +22,23 @@ const writeToFile = async () => {
     const thirdLines = third.split("\n");
 
     // Initialize an array to hold the lines that will be written to the output file.
-    const linesToWrite = [
-      first.split("\n")[0], // First line from the first file
-      second.split("\n")[0], // First line from the second file
-      third.split("\n")[0], // First line from the third file
-      first.split("\n")[0], // Repeat first line from the first file
-      first.split("\n")[1], // Second line from the first file
-      second.split("\n")[0], // First line from the second file
-      second.split("\n")[1], // Second line from the second file
-      third.split("\n")[0], // First line from the third file
-      third.split("\n")[1], // Second line from the third file
-      ".", // Adding a separator
-      ".", // Adding another separator
-      ".", // Adding yet another separator
-    ];
+    const linesToWrite = [];
 
-    let tempResult = ""; // Initialize a temporary result variable.
+    // Initialize a temporary result variable to store the combined lines.
+    let tempResult = "";
 
-    const linesToCopy = 3; // Number of lines to copy from each file.
+    const linesToCopy = 1; // Number of lines to copy from each file.
 
-    // Loop to copy lines from the first file.
+    // Loop to copy lines based on the current index.
     for (let i = 0; i < linesToCopy; i++) {
-      if (firstLines[i]) linesToWrite.push(firstLines[i]); // Add line if it exists.
-    }
+      // Push lines from the first input based on the current index.
+      linesToWrite.push(firstLines[i]); // Add line from first input
 
-    // Additional loop to copy lines from the second file.
-    for (let i = 0; i < linesToCopy; i++) {
-      if (secondLines[i]) linesToWrite.push(secondLines[i]); // Add line if it exists.
-    }
+      // Push lines from the second input based on the current index.
+      linesToWrite.push(secondLines[i]); // Add line from second input
 
-    // Additional loop to copy lines from the third file.
-    for (let i = 0; i < linesToCopy; i++) {
-      if (thirdLines[i]) linesToWrite.push(thirdLines[i]); // Add line if it exists.
+      // Push lines from the third input based on the current index.
+      linesToWrite.push(thirdLines[i]); // Add line from third input
     }
 
     // Combine the chosen lines into a single string, separating them with newline characters.
@@ -61,12 +47,11 @@ const writeToFile = async () => {
     // Write the combined result to a new output file asynchronously.
     await writeFile(`${dirPath}/output.txt`, tempResult);
 
-    console.log("done with this task"); // Log completion of the task.
+    console.log("End Of Copying"); // Log completion of the task.
   } catch (err) {
     console.error(err); // Log any errors that occur during file operations.
   }
 };
 
 // Log the start of the next task and call the function to execute it.
-console.log("starting next task");
 writeToFile();
